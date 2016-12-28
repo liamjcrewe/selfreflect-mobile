@@ -31,8 +31,16 @@ module.exports = StyleSheet.create({
   input: {
     marginBottom: 20,
   },
+  btnContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   btn: {
     marginTop: 20,
+    marginLeft: 10,
+    marginRight: 10,
     alignSelf: 'center',
   },
   error: {
