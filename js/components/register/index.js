@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
 import { Container, Content, InputGroup, Input, Button, Icon, View, Text } from 'native-base';
 
-import { setUserId, setToken } from '../../actions/user';
 import styles from './styles';
 
 import { apiUrl } from '../../config/api'
@@ -14,11 +13,9 @@ const {
   replaceAt,
 } = actions;
 
-class Login extends Component {
+class Register extends Component {
 
   static propTypes = {
-    setUserId: React.PropTypes.func,
-    setToken: React.PropTypes.func,
     replaceAt: React.PropTypes.func,
     navigation: React.PropTypes.shape({
       key: React.PropTypes.string,
@@ -30,13 +27,14 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
+      confirm: '',
       error: false,
       message: ''
     };
   }
 
-  login(onSuccess) {
-    return fetch(apiUrl + '/v1/tokens', {
+  register(onSuccess) {
+    return fetch(apiUrl + '/v1/users', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -48,18 +46,17 @@ class Login extends Component {
       })
     })
       .then(response => {
-
-        if (response.status === 401) {
-          // invalid email or password
+        if (response.status === 409) {
+          // duplicate email
           response.json()
             .then(json => {
-              this.setState({ error: true, message: json.message })
+              this.setState({ error: true, message: json.error })
             });
 
           return;
         }
 
-        if (response.status !== 200) {
+        if (response.status !== 201) {
           // some other error
           this.setState({
             error: true,
@@ -71,17 +68,10 @@ class Login extends Component {
 
         this.setState({
           error: false,
-          message: 'Login successful'
+          message: 'Account created'
         });
 
-        response.json()
-          .then(json => {
-            this.props.setUserId(json.id);
-
-            this.props.setToken(json.token);
-
-            onSuccess();
-          })
+        onSuccess();
       })
       .catch(error => {
         this.setState({ error: 'Something went wrong. Please try again later.' });
@@ -89,7 +79,7 @@ class Login extends Component {
   }
 
   replaceRoute(route) {
-    this.props.replaceAt('login', { key: route }, this.props.navigation.key);
+    this.props.replaceAt('register', { key: route }, this.props.navigation.key);
   }
 
   isValidEmail() {
@@ -99,6 +89,7 @@ class Login extends Component {
   inputsValid() {
     return this.isValidEmail()
       && this.state.password
+      && (this.state.password === this.state.confirm);
   }
 
   render() {
@@ -131,22 +122,36 @@ class Login extends Component {
                   })}
                 />
               </InputGroup>
+              <InputGroup style={styles.input}>
+                <Icon name="ios-unlock-outline" />
+                <Input
+                  placeholder="CONFIRM PASSWORD"
+                  secureTextEntry
+                  onChangeText={confirm => this.setState({
+                    confirm,
+                    error: false,
+                    message: ''
+                  })}
+                />
+              </InputGroup>
               <Text style={this.state.error ? styles.error : styles.success}>
                 {this.state.message}
               </Text>
-              <Button
-                style={styles.btn}
-                onPress={() => this.login(() => this.replaceRoute('home'))}
-                disabled={!this.inputsValid()}
-              >
-                Login
-              </Button>
-              <Button
-                style={styles.btn}
-                onPress={() => this.replaceRoute('register')}
-              >
-                Register
-              </Button>
+              <View style={styles.btnContainer}>
+                <Button
+                  style={styles.btn}
+                  onPress={() => this.replaceRoute('login')}
+                >
+                  Back
+                </Button>
+                <Button
+                  style={styles.btn}
+                  onPress={() => this.register(() => this.replaceRoute('login'))}
+                  disabled={!this.inputsValid()}
+                >
+                  Register
+                </Button>
+              </View>
             </View>
           </Content>
         </View>
@@ -158,8 +163,6 @@ class Login extends Component {
 function bindActions(dispatch) {
   return {
     replaceAt: (routeKey, route, key) => dispatch(replaceAt(routeKey, route, key)),
-    setUserId: id => dispatch(setUserId(id)),
-    setToken: token => dispatch(setToken(token)),
   };
 }
 
@@ -167,4 +170,4 @@ const mapStateToProps = state => ({
   navigation: state.cardNavigation,
 });
 
-export default connect(mapStateToProps, bindActions)(Login);
+export default connect(mapStateToProps, bindActions)(Register);
