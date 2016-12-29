@@ -80,7 +80,7 @@ class Login extends Component {
 
             this.props.setToken(json.token);
 
-            onSuccess()
+            onSuccess();
           })
       })
       .catch(error => {
