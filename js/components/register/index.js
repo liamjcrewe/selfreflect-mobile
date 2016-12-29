@@ -13,8 +13,6 @@ const {
   replaceAt,
 } = actions;
 
-const background = require('../../../images/shadow.png');
-
 class Register extends Component {
 
   static propTypes = {
@@ -99,63 +97,62 @@ class Register extends Component {
       <Container>
         <View style={styles.container}>
           <Content>
-            <Image source={background} style={styles.shadow}>
-              <View style={styles.bg}>
-                <InputGroup style={styles.input}>
-                  <Icon name="ios-person" />
-                  <Input
-                    placeholder="EMAIL"
-                    onChangeText={email => this.setState({
-                      email,
-                      error: false,
-                      message: ''
-                    })}
-                  />
-                </InputGroup>
-                <InputGroup style={styles.input}>
-                  <Icon name="ios-unlock-outline" />
-                  <Input
-                    placeholder="PASSWORD"
-                    secureTextEntry
-                    onChangeText={password => this.setState({
-                      password,
-                      error: false,
-                      message: ''
-                    })}
-                  />
-                </InputGroup>
-                <InputGroup style={styles.input}>
-                  <Icon name="ios-unlock-outline" />
-                  <Input
-                    placeholder="CONFIRM PASSWORD"
-                    secureTextEntry
-                    onChangeText={confirm => this.setState({
-                      confirm,
-                      error: false,
-                      message: ''
-                    })}
-                  />
-                </InputGroup>
-                <Text style={this.state.error ? styles.error : styles.success}>
-                  {this.state.message}
-                </Text>
-                <View style={styles.btnContainer}>
-                  <Button
-                    style={styles.btn}
-                    onPress={() => this.replaceRoute('login')}
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    style={styles.btn}
-                    onPress={() => this.register(() => this.replaceRoute('login'))}
-                    disabled={!this.inputsValid()}
-                  >
-                    Register
-                  </Button>
-                </View>
+            <Text style={styles.title}>SelfReflect</Text>
+            <View style={styles.bg}>
+              <InputGroup style={styles.input}>
+                <Icon name="ios-person" />
+                <Input
+                  placeholder="EMAIL"
+                  onChangeText={email => this.setState({
+                    email,
+                    error: false,
+                    message: ''
+                  })}
+                />
+              </InputGroup>
+              <InputGroup style={styles.input}>
+                <Icon name="ios-unlock-outline" />
+                <Input
+                  placeholder="PASSWORD"
+                  secureTextEntry
+                  onChangeText={password => this.setState({
+                    password,
+                    error: false,
+                    message: ''
+                  })}
+                />
+              </InputGroup>
+              <InputGroup style={styles.input}>
+                <Icon name="ios-unlock-outline" />
+                <Input
+                  placeholder="CONFIRM PASSWORD"
+                  secureTextEntry
+                  onChangeText={confirm => this.setState({
+                    confirm,
+                    error: false,
+                    message: ''
+                  })}
+                />
+              </InputGroup>
+              <Text style={this.state.error ? styles.error : styles.success}>
+                {this.state.message}
+              </Text>
+              <View style={styles.btnContainer}>
+                <Button
+                  style={styles.btn}
+                  onPress={() => this.replaceRoute('login')}
+                >
+                  Back
+                </Button>
+                <Button
+                  style={styles.btn}
+                  onPress={() => this.register(() => this.replaceRoute('login'))}
+                  disabled={!this.inputsValid()}
+                >
+                  Register
+                </Button>
               </View>
-            </Image>
+            </View>
           </Content>
         </View>
       </Container>

@@ -14,14 +14,14 @@ module.exports = StyleSheet.create({
     right: 0,
     backgroundColor: '#FBFAFA',
   },
-  shadow: {
-    flex: 1,
-    width: null,
-    height: null,
+  title: {
+    paddingTop: deviceHeight / 5,
+    fontSize: 50,
+    alignSelf: 'center',
   },
   bg: {
     flex: 1,
-    marginTop: deviceHeight / 1.75,
+    marginTop: deviceHeight / 3,
     paddingTop: 20,
     paddingLeft: 10,
     paddingRight: 10,

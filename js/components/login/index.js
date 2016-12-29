@@ -14,8 +14,6 @@ const {
   replaceAt,
 } = actions;
 
-const background = require('../../../images/shadow.png');
-
 class Login extends Component {
 
   static propTypes = {
@@ -108,49 +106,48 @@ class Login extends Component {
       <Container>
         <View style={styles.container}>
           <Content>
-            <Image source={background} style={styles.shadow}>
-              <View style={styles.bg}>
-                <InputGroup style={styles.input}>
-                  <Icon name="ios-person" />
-                  <Input
-                    placeholder="EMAIL"
-                    onChangeText={email => this.setState({
-                      email,
-                      error: false,
-                      message: ''
-                    })}
-                  />
-                </InputGroup>
-                <InputGroup style={styles.input}>
-                  <Icon name="ios-unlock-outline" />
-                  <Input
-                    placeholder="PASSWORD"
-                    secureTextEntry
-                    onChangeText={password => this.setState({
-                      password,
-                      error: false,
-                      message: ''
-                    })}
-                  />
-                </InputGroup>
-                <Text style={this.state.error ? styles.error : styles.success}>
-                  {this.state.message}
-                </Text>
-                <Button
-                  style={styles.btn}
-                  onPress={() => this.login(() => this.replaceRoute('home'))}
-                  disabled={!this.inputsValid()}
-                >
-                  Login
-                </Button>
-                <Button
-                  style={styles.btn}
-                  onPress={() => this.replaceRoute('register')}
-                >
-                  Register
-                </Button>
-              </View>
-            </Image>
+            <Text style={styles.title}>SelfReflect</Text>
+            <View style={styles.bg}>
+              <InputGroup style={styles.input}>
+                <Icon name="ios-person" />
+                <Input
+                  placeholder="EMAIL"
+                  onChangeText={email => this.setState({
+                    email,
+                    error: false,
+                    message: ''
+                  })}
+                />
+              </InputGroup>
+              <InputGroup style={styles.input}>
+                <Icon name="ios-unlock-outline" />
+                <Input
+                  placeholder="PASSWORD"
+                  secureTextEntry
+                  onChangeText={password => this.setState({
+                    password,
+                    error: false,
+                    message: ''
+                  })}
+                />
+              </InputGroup>
+              <Text style={this.state.error ? styles.error : styles.success}>
+                {this.state.message}
+              </Text>
+              <Button
+                style={styles.btn}
+                onPress={() => this.login(() => this.replaceRoute('home'))}
+                disabled={!this.inputsValid()}
+              >
+                Login
+              </Button>
+              <Button
+                style={styles.btn}
+                onPress={() => this.replaceRoute('register')}
+              >
+                Register
+              </Button>
+            </View>
           </Content>
         </View>
       </Container>

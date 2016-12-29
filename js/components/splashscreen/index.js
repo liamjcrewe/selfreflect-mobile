@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
 
-const launchscreen = require('../../../images/shadow.png');
+import styles from './styles';
 
 export default class SplashPage extends Component {
 
@@ -21,7 +21,7 @@ export default class SplashPage extends Component {
 
   render() { // eslint-disable-line class-methods-use-this
     return (
-      <Image source={launchscreen} style={{ flex: 1, height: null, width: null }} />
+      <Text style={styles.title}>SelfReflect</Text>
     );
   }
 }
