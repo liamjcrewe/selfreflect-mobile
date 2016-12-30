@@ -1,12 +1,11 @@
 
 import React, { Component } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
 import { Container, Header, Title, Content, Text, Button, Icon } from 'native-base';
-import { Grid, Row } from 'react-native-easy-grid';
+import { Grid, Row, Col } from 'react-native-easy-grid';
 
-import { openDrawer } from '../../actions/drawer';
 import { setIndex } from '../../actions/list';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
@@ -22,7 +21,6 @@ class Home extends Component {
     name: React.PropTypes.string,
     list: React.PropTypes.arrayOf(React.PropTypes.string),
     setIndex: React.PropTypes.func,
-    openDrawer: React.PropTypes.func,
     pushRoute: React.PropTypes.func,
     reset: React.PropTypes.func,
     navigation: React.PropTypes.shape({
@@ -44,25 +42,31 @@ class Home extends Component {
           </Button>
 
           <Title>{(this.props.name) ? this.props.name : 'Home'}</Title>
-
-          <Button transparent onPress={this.props.openDrawer}>
-            <Icon name="ios-menu" />
-          </Button>
         </Header>
 
         <Content>
-          <Grid style={styles.mt}>
-            {this.props.list.map((item, i) =>
-              <Row key={i}>
-                <TouchableOpacity
-                  style={styles.row}
-                  onPress={() => this.pushRoute('blankPage', i)}
-                >
-                  <Text style={styles.text}>{item}</Text>
-                </TouchableOpacity>
-              </Row>
-            )}
-          </Grid>
+        <Grid style={styles.grid}>
+          <Row style={styles.headerRow}>
+            <Text style={styles.headerText}>Recent recordings:</Text>
+          </Row>
+          <Row style={styles.tableHeaderRow}>
+            <Col style={styles.tableHeaderLeft} size={3}>
+              <Text style={styles.tableHeaderText}>Date recorded</Text>
+            </Col>
+            <Col style={styles.tableHeaderRight} size={1}>
+              <Text style={styles.tableHeaderText}>Wellbeing</Text>
+            </Col>
+          </Row>
+          {this.props.list.map((item, i) =>
+            <Row key={i} style={styles.row}>
+              <Col style={styles.leftCol} size={3}><Text style={styles.text}>{item}</Text></Col>
+              <Col style={styles.rightCol} size={1}><Text style={styles.text}>{i}</Text></Col>
+            </Row>
+          )}
+        </Grid>
+        <Button style={styles.recordBtn}>
+          Record wellbeing
+        </Button>
         </Content>
       </Container>
     );
@@ -72,7 +76,6 @@ class Home extends Component {
 function bindAction(dispatch) {
   return {
     setIndex: index => dispatch(setIndex(index)),
-    openDrawer: () => dispatch(openDrawer()),
     pushRoute: (route, key) => dispatch(pushRoute(route, key)),
     reset: key => dispatch(reset([{ key: 'login' }], key, 0)),
   };
