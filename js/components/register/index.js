@@ -74,7 +74,10 @@ class Register extends Component {
         onSuccess();
       })
       .catch(error => {
-        this.setState({ error: 'Something went wrong. Please try again later.' });
+        this.setState({
+          error: true,
+          message: 'Something went wrong. Please try again later.'
+        });
       })
   }
 

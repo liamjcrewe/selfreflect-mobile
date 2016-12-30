@@ -1,15 +1,17 @@
 
 import React, { Component } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
 import { Container, Header, Title, Content, Text, Button, Icon } from 'native-base';
-import { Grid, Row } from 'react-native-easy-grid';
+import { Grid, Row, Col } from 'react-native-easy-grid';
+import { reverse } from 'ramda'
 
-import { openDrawer } from '../../actions/drawer';
 import { setIndex } from '../../actions/list';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
+
+import { apiUrl } from '../../config/api'
 
 const {
   reset,
@@ -22,7 +24,6 @@ class Home extends Component {
     name: React.PropTypes.string,
     list: React.PropTypes.arrayOf(React.PropTypes.string),
     setIndex: React.PropTypes.func,
-    openDrawer: React.PropTypes.func,
     pushRoute: React.PropTypes.func,
     reset: React.PropTypes.func,
     navigation: React.PropTypes.shape({
@@ -30,9 +31,73 @@ class Home extends Component {
     }),
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: false,
+      message: '',
+      wellbeings: []
+    };
+  }
+
   pushRoute(route, index) {
     this.props.setIndex(index);
     this.props.pushRoute({ key: route, index: 1 }, this.props.navigation.key);
+  }
+
+  fetchHistory(id, token) {
+    return fetch(apiUrl + '/v1/users/' + id + '/wellbeings?limit=5', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    })
+      .then(response => {
+        if (response.status === 401) {
+          // invalid email or password
+          response.json()
+            .then(json => {
+              this.setState({ error: true, message: json.message })
+            });
+
+          return;
+        }
+
+        if (response.status !== 200) {
+          // some other error
+          this.setState({
+            error: true,
+            message: 'Something went wrong. Please try again later.'
+          });
+
+          return;
+        }
+
+        response.json()
+          .then(json => {
+            this.setState({
+              wellbeings: reverse(json.results)
+            })
+          })
+      })
+      .catch(error => {
+        this.setState({
+          error: true,
+          message: 'Something went wrong. Please try again later.'
+        });
+      })
+  }
+
+  formatDate(timestampString) {
+    const date = new Date(timestampString);
+
+    return date.toLocaleDateString() + ' at ' + date.toLocaleTimeString();
+  }
+
+  componentDidMount() {
+    this.fetchHistory(this.props.id, this.props.token)
   }
 
   render() {
@@ -44,25 +109,34 @@ class Home extends Component {
           </Button>
 
           <Title>{(this.props.name) ? this.props.name : 'Home'}</Title>
-
-          <Button transparent onPress={this.props.openDrawer}>
-            <Icon name="ios-menu" />
-          </Button>
         </Header>
 
         <Content>
-          <Grid style={styles.mt}>
-            {this.props.list.map((item, i) =>
-              <Row key={i}>
-                <TouchableOpacity
-                  style={styles.row}
-                  onPress={() => this.pushRoute('blankPage', i)}
-                >
-                  <Text style={styles.text}>{item}</Text>
-                </TouchableOpacity>
-              </Row>
-            )}
-          </Grid>
+        <Grid style={styles.grid}>
+          <Row style={styles.headerRow}>
+            <Text style={styles.headerText}>Recent recordings:</Text>
+          </Row>
+          <Row style={styles.tableHeaderRow}>
+            <Col style={styles.tableHeaderLeft} size={3}>
+              <Text style={styles.tableHeaderText}>Date recorded</Text>
+            </Col>
+            <Col style={styles.tableHeaderRight} size={1}>
+              <Text style={styles.tableHeaderText}>Wellbeing</Text>
+            </Col>
+          </Row>
+          {this.state.wellbeings.map((wellbeing, i) =>
+            <Row key={i} style={styles.row}>
+              <Col style={styles.leftCol} size={3}><Text style={styles.text}>{this.formatDate(wellbeing.date_recorded)}</Text></Col>
+              <Col style={styles.rightCol} size={1}><Text style={styles.text}>{wellbeing.wellbeing}</Text></Col>
+            </Row>
+          )}
+        </Grid>
+        <Text style={styles.error}>
+          {this.state.message}
+        </Text>
+        <Button style={styles.recordBtn}>
+          Record wellbeing
+        </Button>
         </Content>
       </Container>
     );
@@ -72,14 +146,14 @@ class Home extends Component {
 function bindAction(dispatch) {
   return {
     setIndex: index => dispatch(setIndex(index)),
-    openDrawer: () => dispatch(openDrawer()),
     pushRoute: (route, key) => dispatch(pushRoute(route, key)),
     reset: key => dispatch(reset([{ key: 'login' }], key, 0)),
   };
 }
 
 const mapStateToProps = state => ({
-  name: state.user.name,
+  id: state.user.id,
+  token: state.user.token,
   list: state.list.list,
   navigation: state.cardNavigation,
 });
