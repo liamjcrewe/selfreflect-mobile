@@ -48,7 +48,6 @@ class Login extends Component {
       })
     })
       .then(response => {
-
         if (response.status === 401) {
           // invalid email or password
           response.json()
@@ -84,7 +83,10 @@ class Login extends Component {
           })
       })
       .catch(error => {
-        this.setState({ error: 'Something went wrong. Please try again later.' });
+        this.setState({
+          error: true,
+          message: 'Something went wrong. Please try again later.'
+        });
       })
   }
 
