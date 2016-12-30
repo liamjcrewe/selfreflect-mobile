@@ -6,7 +6,7 @@ import { actions } from 'react-native-navigation-redux-helpers';
 import { Container, Content, InputGroup, Input, Button, Icon, View, Text } from 'native-base';
 
 import styles from './styles';
-
+import isValidEmail from '../../util/email'
 import { apiUrl } from '../../config/api'
 
 const {
@@ -85,12 +85,8 @@ class Register extends Component {
     this.props.replaceAt('register', { key: route }, this.props.navigation.key);
   }
 
-  isValidEmail() {
-    return !!this.state.email;
-  }
-
   inputsValid() {
-    return this.isValidEmail()
+    return isValidEmail(this.state.email)
       && this.state.password
       && (this.state.password === this.state.confirm);
   }
