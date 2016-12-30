@@ -69,5 +69,9 @@ module.exports = StyleSheet.create({
   recordBtn: {
     marginTop: deviceHeight / 2.5,
     alignSelf: 'center',
-  }
+  },
+  error: {
+    color: 'red',
+    alignSelf: 'center',
+  },
 });
