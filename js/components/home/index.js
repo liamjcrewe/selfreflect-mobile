@@ -40,8 +40,7 @@ class Home extends Component {
     };
   }
 
-  pushRoute(route, index) {
-    this.props.setIndex(index);
+  pushRoute(route) {
     this.props.pushRoute({ key: route, index: 1 }, this.props.navigation.key);
   }
 
@@ -134,7 +133,7 @@ class Home extends Component {
         <Text style={styles.error}>
           {this.state.message}
         </Text>
-        <Button style={styles.recordBtn}>
+        <Button block success style={styles.recordBtn} onPress={() => this.pushRoute('qOne')}>
           Record wellbeing
         </Button>
         </Content>

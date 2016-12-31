@@ -67,8 +67,9 @@ module.exports = StyleSheet.create({
     marginRight: 10,
   },
   recordBtn: {
-    marginTop: deviceHeight / 2.5,
-    alignSelf: 'center',
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: deviceHeight / 1.5,
   },
   error: {
     color: 'red',

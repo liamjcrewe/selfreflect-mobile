@@ -133,6 +133,7 @@ class Login extends Component {
                 {this.state.message}
               </Text>
               <Button
+                success
                 style={styles.btn}
                 onPress={() => this.login(() => this.replaceRoute('home'))}
                 disabled={!this.inputsValid()}
@@ -140,6 +141,7 @@ class Login extends Component {
                 Login
               </Button>
               <Button
+                info
                 style={styles.btn}
                 onPress={() => this.replaceRoute('register')}
               >
