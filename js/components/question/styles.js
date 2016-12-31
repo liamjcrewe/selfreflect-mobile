@@ -35,6 +35,9 @@ module.exports = StyleSheet.create({
     width: deviceWidth / 4,
     alignSelf: 'center',
   },
+  disabledBtn: {
+    backgroundColor: '#B5B5B5',
+  },
   selected: {
     height: deviceHeight / 10,
     borderBottomWidth: 1,

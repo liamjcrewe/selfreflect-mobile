@@ -72,6 +72,10 @@ class Question extends Component {
     return i == (this.props.scores[this.props.scoreIndex] - 1);
   }
 
+  isAnswered() {
+    return this.props.scores[this.props.scoreIndex] > 0;
+  }
+
   updateScore(score) {
     this.props.updateScore(this.props.scoreIndex, score)
   }
@@ -136,12 +140,13 @@ class Question extends Component {
               <Icon name='ios-arrow-back' />
             </Button>
             <Button success iconRight
-              style={styles.btn}
+              style={[styles.btn, this.isAnswered() ? '' : styles.disabledBtn]}
               onPress={
                 this.isLastQuestion()
                 ? () => this.submitWellbeing(() => this.props.reset(this.props.navigation.key))
                 : () => this.pushRoute(this.props.next)
               }
+              disabled={!this.isAnswered()}
             >
               {this.isLastQuestion() ? 'Submit' : 'Next'}
               <Icon name='ios-arrow-forward' />
