@@ -138,13 +138,16 @@ class Register extends Component {
               </Text>
               <View style={styles.btnContainer}>
                 <Button
+                  info
                   style={styles.btn}
                   onPress={() => this.replaceRoute('login')}
                 >
                   Back
+                  <Icon name='ios-arrow-back' />
                 </Button>
                 <Button
-                  style={styles.btn}
+                  success
+                  style={[styles.btn, this.inputsValid() ? '' : styles.disabledBtn]}
                   onPress={() => this.register(() => this.replaceRoute('login'))}
                   disabled={!this.inputsValid()}
                 >

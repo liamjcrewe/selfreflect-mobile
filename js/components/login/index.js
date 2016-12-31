@@ -134,7 +134,7 @@ class Login extends Component {
               </Text>
               <Button
                 success
-                style={styles.btn}
+                style={[styles.btn, this.inputsValid() ? '' : styles.disabledBtn]}
                 onPress={() => this.login(() => this.replaceRoute('home'))}
                 disabled={!this.inputsValid()}
               >

@@ -38,6 +38,9 @@ module.exports = StyleSheet.create({
     alignSelf: 'center',
     width: deviceWidth / 4,
   },
+  disabledBtn: {
+    backgroundColor: '#B5B5B5',
+  },
   error: {
     color: 'red',
     alignSelf: 'center',
