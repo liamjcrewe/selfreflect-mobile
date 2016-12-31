@@ -92,7 +92,6 @@ class AppNavigator extends Component {
             question={'I\'ve been feeling optimistic about the future'}
             next={'qTwo'}
             scoreIndex={0}
-            isLastQuestion={false}
           />
         );
       case 'qTwo':
@@ -102,7 +101,6 @@ class AppNavigator extends Component {
             question={'I\'ve been feeling useful'}
             next={'qThree'}
             scoreIndex={1}
-            isLastQuestion={false}
           />
         );
       case 'qThree':
@@ -112,7 +110,6 @@ class AppNavigator extends Component {
             question={'I\'ve been feeling relaxed'}
             next={'qFour'}
             scoreIndex={2}
-            isLastQuestion={false}
           />
         );
       case 'qFour':
@@ -122,7 +119,6 @@ class AppNavigator extends Component {
             question={'I\'ve been dealing with problems well'}
             next={'qFive'}
             scoreIndex={3}
-            isLastQuestion={false}
           />
         );
       case 'qFive':
@@ -132,7 +128,6 @@ class AppNavigator extends Component {
             question={'I\'ve been thinking clearly'}
             next={'qSix'}
             scoreIndex={4}
-            isLastQuestion={false}
           />
         );
       case 'qSix':
@@ -142,7 +137,6 @@ class AppNavigator extends Component {
             question={'I\'ve been feeling close to other people'}
             next={'qSeven'}
             scoreIndex={5}
-            isLastQuestion={false}
           />
         );
       case 'qSeven':
@@ -152,7 +146,6 @@ class AppNavigator extends Component {
             question={'I\'ve been able to make up my own mind about things '}
             next={''}
             scoreIndex={6}
-            isLastQuestion={true}
           />
         );
       default :

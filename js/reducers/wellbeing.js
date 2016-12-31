@@ -1,6 +1,6 @@
 
 import type { Action } from '../actions/types';
-import { UPDATE_SCORE } from '../actions/wellbeing';
+import { UPDATE_SCORE, RESET_SCORES } from '../actions/wellbeing';
 
 export type State = {
   scores: Array<int>
@@ -18,6 +18,10 @@ export default function (state:State = initialState, action:Action): State {
       ...state,
       scores: newScores,
     };
+  }
+
+  if (action.type === RESET_SCORES) {
+    return initialState;
   }
 
   return state;

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
 import { Container, Header, Title, Content, Text, Button, Icon, View, Grid, Row } from 'native-base';
 
-import { updateScore } from '../../actions/wellbeing'
+import { updateScore, resetScores } from '../../actions/wellbeing'
 import styles from './styles';
 
 const {
@@ -14,6 +14,8 @@ const {
   popRoute,
   replaceAt,
 } = actions;
+
+const NUM_QUESTIONS = 7;
 
 class Question extends Component {
 
@@ -58,6 +60,14 @@ class Question extends Component {
     // onSuccess()
   }
 
+  isFirstQuestion() {
+    return this.props.scoreIndex === 0;
+  }
+
+  isLastQuestion() {
+    return this.props.scoreIndex === (NUM_QUESTIONS - 1);
+  }
+
   isSelected(i) {
     return i == (this.props.scores[this.props.scoreIndex] - 1);
   }
@@ -78,7 +88,14 @@ class Question extends Component {
     return (
       <Container style={styles.container}>
         <Header>
-          <Button transparent onPress={() => this.props.reset(this.props.navigation.key)}>
+          <Button
+            transparent
+            onPress={() => {
+              this.props.resetScores()
+
+              this.props.reset(this.props.navigation.key)
+            }}
+          >
             Cancel
           </Button>
 
@@ -109,7 +126,11 @@ class Question extends Component {
           <View style={styles.btnContainer}>
             <Button info
               style={styles.btn}
-              onPress={() => this.popRoute()}
+              onPress={() => {
+                this.isFirstQuestion() && this.props.resetScores()
+
+                this.popRoute()
+              }}
             >
               Back
               <Icon name='ios-arrow-back' />
@@ -117,12 +138,12 @@ class Question extends Component {
             <Button success iconRight
               style={styles.btn}
               onPress={
-                this.props.isLastQuestion
+                this.isLastQuestion()
                 ? () => this.submitWellbeing(() => this.props.reset(this.props.navigation.key))
                 : () => this.pushRoute(this.props.next)
               }
             >
-              {this.props.isLastQuestion ? 'Submit' : 'Next'}
+              {this.isLastQuestion() ? 'Submit' : 'Next'}
               <Icon name='ios-arrow-forward' />
             </Button>
           </View>
@@ -140,7 +161,8 @@ function bindAction(dispatch) {
     pushRoute: (route, key) => dispatch(pushRoute(route, key)),
     popRoute: key => dispatch(popRoute(key)),
     reset: key => dispatch(reset([{ key: 'home' }], key, 0)),
-    updateScore: (index, score) => dispatch(updateScore(index, score))
+    updateScore: (index, score) => dispatch(updateScore(index, score)),
+    resetScores: () => dispatch(resetScores())
   };
 }
 
@@ -151,7 +173,6 @@ const mapStateToProps = (state, ownProps) => ({
   question: ownProps.question,
   next: ownProps.next,
   scoreIndex: ownProps.scoreIndex,
-  isLastQuestion: ownProps.isLastQuestion,
 });
 
 export default connect(mapStateToProps, bindAction)(Question);
