@@ -80,6 +80,12 @@ class Question extends Component {
     this.props.updateScore(this.props.scoreIndex, score)
   }
 
+  resetRoute() {
+    this.props.resetScores()
+
+    this.props.reset(this.props.navigation.key)
+  }
+
   render() {
     const answers = [
       'None of the time',
@@ -94,11 +100,7 @@ class Question extends Component {
         <Header>
           <Button
             transparent
-            onPress={() => {
-              this.props.resetScores()
-
-              this.props.reset(this.props.navigation.key)
-            }}
+            onPress={() => this.resetRoute()}
           >
             Cancel
           </Button>
@@ -143,7 +145,7 @@ class Question extends Component {
               style={[styles.btn, this.isAnswered() ? '' : styles.disabledBtn]}
               onPress={
                 this.isLastQuestion()
-                ? () => this.submitWellbeing(() => this.props.reset(this.props.navigation.key))
+                ? () => this.submitWellbeing(this.resetRoute)
                 : () => this.pushRoute(this.props.next)
               }
               disabled={!this.isAnswered()}
