@@ -4,9 +4,11 @@ import { TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
 import { Container, Header, Title, Content, Text, Button, Icon, View, Grid, Row } from 'native-base';
+import { sum } from 'ramda'
 
-import { updateScore, resetScores } from '../../actions/wellbeing'
+import { updateScore, resetScores } from '../../actions/wellbeing';
 import styles from './styles';
+import { apiUrl } from '../../config/api';
 
 const {
   reset,
@@ -47,17 +49,44 @@ class Question extends Component {
     this.props.pushRoute({ key: route, index: 3 }, this.props.navigation.key);
   }
 
-  submitWellbeing(onSuccess) {
-    this.setState({
-      message: JSON.stringify(this.props.scores)
+  submitWellbeing(id, token, scores, onSuccess) {
+    const wellbeing = sum(scores);
+
+    return fetch(apiUrl + '/v1/users/' + id + '/wellbeings', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({
+        wellbeing
+      })
     })
+      .then(response => {
+        if (response.status !== 201) {
+          // error
+          this.setState({
+            error: true,
+            message: 'Something went wrong. Please try again later.'
+          });
 
-    //sum this.props.scores
-    //submit sum
-    //handle errors
-    //call onSuccess
+          return;
+        }
 
-    // onSuccess()
+        this.setState({
+          error: false,
+          message: 'Wellbeing submitted'
+        });
+
+        onSuccess()
+      })
+      .catch(error => {
+        this.setState({
+          error: true,
+          message: error.message
+        });
+      })
   }
 
   isFirstQuestion() {
@@ -145,7 +174,12 @@ class Question extends Component {
               style={[styles.btn, this.isAnswered() ? '' : styles.disabledBtn]}
               onPress={
                 this.isLastQuestion()
-                ? () => this.submitWellbeing(this.resetRoute)
+                ? () => this.submitWellbeing(
+                    this.props.id,
+                    this.props.token,
+                    this.props.scores,
+                    () => this.resetRoute()
+                  )
                 : () => this.pushRoute(this.props.next)
               }
               disabled={!this.isAnswered()}
@@ -175,6 +209,8 @@ function bindAction(dispatch) {
 
 const mapStateToProps = (state, ownProps) => ({
   navigation: state.cardNavigation,
+  id: state.user.id,
+  token: state.user.token,
   scores: state.wellbeing.scores,
   name: ownProps.name,
   question: ownProps.question,
