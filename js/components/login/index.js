@@ -7,8 +7,8 @@ import { Container, Content, InputGroup, Input, Button, Icon, View, Text } from 
 
 import { setUserId, setToken } from '../../actions/user';
 import styles from './styles';
-import isValidEmail from '../../util/email'
-import { apiUrl } from '../../config/api'
+import isValidEmail from '../../util/email';
+import { apiUrl } from '../../config/api';
 
 const {
   replaceAt,
