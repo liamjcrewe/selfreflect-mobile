@@ -5,7 +5,7 @@ import { actions } from 'react-native-navigation-redux-helpers';
 import { Container, Header, Title, Content, Text, Button, Icon, View, Grid, Row } from 'native-base';
 import { sum } from 'ramda'
 
-import { updateScore, resetScores } from '../../actions/wellbeing';
+import { updateScore, resetScores, updateHistory } from '../../actions/wellbeing';
 import styles from './styles';
 import { apiUrl } from '../../config/api';
 
@@ -13,7 +13,7 @@ const {
   reset,
   pushRoute,
   popRoute,
-  replaceAt,
+  replaceAt
 } = actions;
 
 const NUM_QUESTIONS = 7;
@@ -78,7 +78,13 @@ class Question extends Component {
           message: 'Wellbeing submitted'
         });
 
-        onSuccess()
+        response.json()
+          .then(json => {
+            this.props.updateHistory(json)
+
+            onSuccess()
+          })
+
       })
       .catch(error => {
         this.setState({
@@ -173,12 +179,14 @@ class Question extends Component {
               style={[styles.btn, this.isAnswered() ? '' : styles.disabledBtn]}
               onPress={
                 this.isLastQuestion()
-                ? () => this.submitWellbeing(
+                ? () => {
+                  this.submitWellbeing(
                     this.props.id,
                     this.props.token,
                     this.props.scores,
                     () => this.resetRoute()
                   )
+                }
                 : () => this.pushRoute(this.props.next)
               }
               disabled={!this.isAnswered()}
@@ -202,7 +210,8 @@ function bindAction(dispatch) {
     popRoute: key => dispatch(popRoute(key)),
     reset: key => dispatch(reset([{ key: 'home' }], key, 0)),
     updateScore: (index, score) => dispatch(updateScore(index, score)),
-    resetScores: () => dispatch(resetScores())
+    resetScores: () => dispatch(resetScores()),
+    updateHistory: newWellbeing => dispatch(updateHistory(newWellbeing))
   };
 }
 
