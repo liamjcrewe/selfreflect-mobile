@@ -3,7 +3,9 @@ const React = require('react-native');
 
 const { StyleSheet, Dimensions } = React;
 
-const deviceHeight = Dimensions.get('window').height;
+const dimensions = Dimensions.get('window')
+const deviceHeight = dimensions.height;
+const deviceWidth = dimensions.width;
 
 module.exports = StyleSheet.create({
   container: {
@@ -21,7 +23,7 @@ module.exports = StyleSheet.create({
   },
   bg: {
     flex: 1,
-    marginTop: deviceHeight / 3,
+    marginTop: deviceHeight / 4,
     paddingTop: 20,
     paddingLeft: 10,
     paddingRight: 10,
@@ -41,14 +43,18 @@ module.exports = StyleSheet.create({
     marginTop: 20,
     marginLeft: 10,
     marginRight: 10,
+    width: deviceWidth / 4,
     alignSelf: 'center',
+  },
+  disabledBtn: {
+    backgroundColor: '#B5B5B5',
   },
   error: {
     color: 'red',
     alignSelf: 'center',
   },
   success: {
-    color: 'green',
+    color: '#5CB85C',
     alignSelf: 'center',
   }
 });

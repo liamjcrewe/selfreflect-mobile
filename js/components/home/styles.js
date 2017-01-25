@@ -3,13 +3,16 @@ const React = require('react-native');
 
 const { StyleSheet, Dimensions } = React;
 
-const deviceHeight = Dimensions.get('window').height;
+const windowDimensions = Dimensions.get('window')
+const deviceHeight = windowDimensions.height;
+const deviceWidth = windowDimensions.width;
 
 module.exports = StyleSheet.create({
   container: {
     backgroundColor: '#FBFAFA',
   },
   headerRow: {
+    height: 35,
     alignSelf: 'center',
   },
   headerText: {
@@ -19,12 +22,13 @@ module.exports = StyleSheet.create({
     fontWeight: 'bold',
   },
   tableHeaderRow: {
+    height: 40,
     backgroundColor: '#1B1E24',
     borderBottomWidth: 4,
     borderBottomColor: '#9EA7AF',
   },
   tableHeaderText: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#FAFAFA',
     marginLeft: 5,
   },
@@ -41,6 +45,7 @@ module.exports = StyleSheet.create({
     justifyContent: 'center',
   },
   row: {
+    height: 40,
     backgroundColor: '#EBEBEB',
     borderBottomColor: '#C1C3D1',
     borderBottomWidth: 1,
@@ -58,7 +63,7 @@ module.exports = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    fontSize: 16,
+    fontSize: 14,
     marginLeft: 5,
   },
   grid: {
@@ -66,9 +71,23 @@ module.exports = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
+  btnsView: {
+    // height - recordingsHeader - tableHeader - tablePadding - rows - header
+    height: deviceHeight - 35 - 35 - 40 - (5 * 40) - 18 - 40,
+  },
+  fetchBtn: {
+    position: 'absolute',
+    bottom: 60,
+    width: deviceWidth - 20,
+    marginLeft: 10,
+    marginRight: 10
+  },
   recordBtn: {
-    marginTop: deviceHeight / 2.5,
-    alignSelf: 'center',
+    position: 'absolute',
+    bottom: 0,
+    width: deviceWidth - 20,
+    marginLeft: 10,
+    marginRight: 10,
   },
   error: {
     color: 'red',

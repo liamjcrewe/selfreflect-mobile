@@ -7,8 +7,8 @@ import { Container, Content, InputGroup, Input, Button, Icon, View, Text } from 
 
 import { setUserId, setToken } from '../../actions/user';
 import styles from './styles';
-import isValidEmail from '../../util/email'
-import { apiUrl } from '../../config/api'
+import isValidEmail from '../../util/email';
+import { apiUrl } from '../../config/api';
 
 const {
   replaceAt,
@@ -133,13 +133,15 @@ class Login extends Component {
                 {this.state.message}
               </Text>
               <Button
-                style={styles.btn}
+                success
+                style={[styles.btn, this.inputsValid() ? '' : styles.disabledBtn]}
                 onPress={() => this.login(() => this.replaceRoute('home'))}
                 disabled={!this.inputsValid()}
               >
                 Login
               </Button>
               <Button
+                info
                 style={styles.btn}
                 onPress={() => this.replaceRoute('register')}
               >

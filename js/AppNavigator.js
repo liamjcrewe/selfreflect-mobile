@@ -13,6 +13,7 @@ import Home from './components/home/';
 import BlankPage from './components/blankPage';
 import SplashPage from './components/splashscreen/';
 import SideBar from './components/sideBar';
+import Question from './components/question';
 import { statusBarColor } from './themes/base-theme';
 
 const {
@@ -84,6 +85,69 @@ class AppNavigator extends Component {
         return <Home />;
       case 'blankPage':
         return <BlankPage />;
+      case 'qOne':
+        return (
+          <Question
+            name={'Question One'}
+            question={'I\'ve been feeling optimistic about the future'}
+            next={'qTwo'}
+            scoreIndex={0}
+          />
+        );
+      case 'qTwo':
+        return (
+          <Question
+            name={'Question Two'}
+            question={'I\'ve been feeling useful'}
+            next={'qThree'}
+            scoreIndex={1}
+          />
+        );
+      case 'qThree':
+        return (
+          <Question
+            name={'Question Three'}
+            question={'I\'ve been feeling relaxed'}
+            next={'qFour'}
+            scoreIndex={2}
+          />
+        );
+      case 'qFour':
+        return (
+          <Question
+            name={'Question Four'}
+            question={'I\'ve been dealing with problems well'}
+            next={'qFive'}
+            scoreIndex={3}
+          />
+        );
+      case 'qFive':
+        return (
+          <Question
+            name={'Question Five'}
+            question={'I\'ve been thinking clearly'}
+            next={'qSix'}
+            scoreIndex={4}
+          />
+        );
+      case 'qSix':
+        return (
+          <Question
+            name={'Question Six'}
+            question={'I\'ve been feeling close to other people'}
+            next={'qSeven'}
+            scoreIndex={5}
+          />
+        );
+      case 'qSeven':
+        return (
+          <Question
+            name={'Question Seven'}
+            question={'I\'ve been able to make up my own mind about things '}
+            next={''}
+            scoreIndex={6}
+          />
+        );
       default :
         return <Login />;
     }
