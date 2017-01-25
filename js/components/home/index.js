@@ -128,12 +128,20 @@ class Home extends Component {
             </Row>
           )}
         </Grid>
-        <Text style={styles.error}>
-          {this.state.message}
-        </Text>
-        <Button block success style={styles.recordBtn} onPress={() => this.pushRoute('qOne')}>
-          Record wellbeing
-        </Button>
+        <View style={styles.btnsView}>
+          <Button block info
+            style={styles.fetchBtn}
+            onPress={() => this.fetchHistory(this.props.id, this.props.token)}
+          >
+            Refresh recent recordings
+          </Button>
+          <Text style={styles.error}>
+            {this.state.message}
+          </Text>
+          <Button block success style={styles.recordBtn} onPress={() => this.pushRoute('qOne')}>
+            Record wellbeing
+          </Button>
+        </View>
         </Content>
       </Container>
     );
