@@ -117,14 +117,14 @@ class Home extends Component {
             <Col style={styles.tableHeaderLeft} size={3}>
               <Text style={styles.tableHeaderText}>Date recorded</Text>
             </Col>
-            <Col style={styles.tableHeaderRight} size={1}>
+            <Col style={styles.tableHeaderRight} size={2}>
               <Text style={styles.tableHeaderText}>Wellbeing</Text>
             </Col>
           </Row>
           {this.props.history.map((wellbeing, i) =>
             <Row key={i} style={styles.row}>
-              <Col style={styles.leftCol} size={3}><Text style={styles.text}>{this.formatDate(wellbeing.date_recorded)}</Text></Col>
-              <Col style={styles.rightCol} size={1}><Text style={styles.text}>{wellbeing.wellbeing}</Text></Col>
+              <Col style={styles.leftCol} size={3}><Text style={styles.text}>{wellbeing.date_recorded}</Text></Col>
+              <Col style={styles.rightCol} size={2}><Text style={styles.text}>{wellbeing.wellbeing}</Text></Col>
             </Row>
           )}
         </Grid>
