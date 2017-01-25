@@ -92,7 +92,7 @@ class Home extends Component {
   formatDate(timestampString) {
     const date = new Date(timestampString);
 
-    return date.toLocaleDateString() + ' at ' + date.toLocaleTimeString();
+    return date.toLocaleDateString('en-GB') + ' at ' + date.toLocaleTimeString();
   }
 
   componentDidMount() {
