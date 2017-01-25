@@ -111,7 +111,7 @@ class Home extends Component {
         <Content>
         <Grid style={styles.grid}>
           <Row style={styles.headerRow}>
-            <Text style={styles.headerText}>Recent recordings:</Text>
+            <Text style={styles.headerText}>Last 5 recordings:</Text>
           </Row>
           <Row style={styles.tableHeaderRow}>
             <Col style={styles.tableHeaderLeft} size={3}>
