@@ -104,7 +104,6 @@ class Home extends Component {
           <Button transparent onPress={() => this.props.reset(this.props.navigation.key)}>
             <Icon name="ios-power" />
           </Button>
-
           <Title>{(this.props.name) ? this.props.name : 'Home'}</Title>
         </Header>
 
@@ -128,6 +127,11 @@ class Home extends Component {
             </Row>
           )}
         </Grid>
+
+        <Text style={styles.infoText}>
+          Remember to visit the SelfReflect web app to analyse your wellbeing scores!
+        </Text>
+
         <View style={styles.btnsView}>
           <Button block info
             style={styles.fetchBtn}
