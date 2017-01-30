@@ -91,6 +91,40 @@ class Register extends Component {
       && (this.state.password === this.state.confirm);
   }
 
+  getErrorMessage() {
+    // Invalid email
+    if (this.state.email && !isValidEmail(this.state.email)) {
+      return (
+        <Text style={styles.error}>
+          Invalid email
+        </Text>
+      )
+    }
+
+    // No password or confirm
+    if (!this.state.password || !this.state.confirm) {
+      return
+    }
+
+    // Passwords do not match
+    if (this.state.password !== this.state.confirm) {
+      return (
+        <Text style={styles.error}>
+          Passwords do not match
+        </Text>
+      )
+    }
+
+    // Login (ajax/server) error
+    if (this.state.error) {
+      return (
+        <Text style={styles.error}>
+          {this.state.message}
+        </Text>
+      )
+    }
+  }
+
   render() {
     return (
       <Container>
@@ -133,9 +167,7 @@ class Register extends Component {
                   })}
                 />
               </InputGroup>
-              <Text style={this.state.error ? styles.error : styles.success}>
-                {this.state.message}
-              </Text>
+              {this.getErrorMessage()}
               <View style={styles.btnContainer}>
                 <Button
                   info
