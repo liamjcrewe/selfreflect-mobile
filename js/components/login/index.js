@@ -99,6 +99,31 @@ class Login extends Component {
       && this.state.password
   }
 
+  getErrorMessage() {
+    // Invalid email
+    if (this.state.email && !isValidEmail(this.state.email)) {
+      return (
+        <Text style={styles.error}>
+          Invalid email
+        </Text>
+      )
+    }
+
+    // Invalid password
+    if (!this.state.password) {
+      return
+    }
+
+    // Login (ajax/server) error
+    if (this.state.error) {
+      return (
+        <Text style={styles.error}>
+          {this.state.message}
+        </Text>
+      )
+    }
+  }
+
   render() {
     return (
       <Container>
@@ -129,9 +154,7 @@ class Login extends Component {
                   })}
                 />
               </InputGroup>
-              <Text style={this.state.error ? styles.error : styles.success}>
-                {this.state.message}
-              </Text>
+              {this.getErrorMessage()}
               <Button
                 success
                 style={[styles.btn, this.inputsValid() ? '' : styles.disabledBtn]}
