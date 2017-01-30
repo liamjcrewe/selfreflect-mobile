@@ -71,9 +71,17 @@ module.exports = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
+  infoText: {
+    height: 100,
+    fontSize: 18,
+    paddingTop: 40,
+    marginLeft: 30,
+    marginRight: 30,
+    textAlign: 'center',
+  },
   btnsView: {
-    // height - recordingsHeader - tableHeader - tablePadding - rows - header
-    height: deviceHeight - 35 - 35 - 40 - (5 * 40) - 18 - 40,
+    // height - recordingsHeader - tableHeader - tablePadding - rows - header - infoText
+    height: deviceHeight - 35 - 35 - 40 - (5 * 40) - 18 - 40 - 100,
   },
   fetchBtn: {
     position: 'absolute',
