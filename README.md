@@ -1,5 +1,7 @@
 # SelfReflect Mobile App
-Mobile app for recording wellbeing, to be analysed on [SelfReflect web](https://github.com/liamjcrewe/selfreflect-web).
+SelfReflect is a project developed as part of a final year BSc Computer Science project at the University of Bath. It is an application to allow users to record their mental health wellbeing, with the goal to allow them to map this wellbeing to other data about them (via external APIs). This will allow users to investigate the relationships between their mental health wellbeing, social media activity (Twitter), music listening habits (last.fm) and exercise information (Strava).
+
+This specific project is a mobile app for recording wellbeing that communicates to a server via the [SelfReflect API](https://github.com/liamjcrewe/selfreflect-api). This app simply allows register, login and recording of wellbeing scores. The data can then be analysed by the user using [SelfReflect Web](https://github.com/liamjcrewe/selfreflect-web).
 
 ## Get Started
 
